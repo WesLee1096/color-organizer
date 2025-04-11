@@ -1,32 +1,13 @@
 #import pygame
 import random
+import Gameplay
 
-print("HELLO")
 
-def check_win(all_stacks):
-    #Go through all the stacks
-    for a in range(len(all_stacks)):
-        #check if stack is empty, just move on
-        if all_stacks[a] == []:
-            print("Stack {} is empty".format(a+1))
-        #Check non empty stacks if everything is the same
-        else:
-            #Compare first element of the list to the others
-            for b in range(1, len(all_stacks[a])):
-                if all_stacks[a][0] == all_stacks[a][b]:
-                    print("Good so far")
-                else:
-                    print("Stack {}: 2+ colors detected, not done yet".format(a+1))
-                    return '0'
-            print("Stack {} must be good".format(a+1))
 
-    print("All stacks must be good at this point")
-    return '1'
     
 def main():
 
 
-    print("okkkksdiojadsiokljfilasdf")
 
 
     # List for possible colors
@@ -71,12 +52,14 @@ def main():
     #print("answer: {}".format(all_stacks[2][3]))
     
     #Call function to check if game is done yet
-    winner = check_win(all_stacks)
+    winner = Gameplay.check_win(all_stacks)
     #Tell user if they won yet
     if winner == '0':
         print("Not yet, keep going")
     else:
         print("You win")
+
+    play = Gameplay.play_game(all_stacks)
     #Note: stack 4 is empty
     #Default  - remmber reverse order since list/stack
     #3    blue    blue        blue
