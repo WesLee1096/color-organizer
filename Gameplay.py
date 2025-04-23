@@ -1,8 +1,6 @@
 
 all_stacks = []
-color_list = []
-origin_stack = []
-target_stack = []
+
 
 max_ht = 4
 stack_amt = 4
@@ -15,32 +13,21 @@ def check_win(all_stacks):
 
     # Go through all the stacks
     for a in range(len(all_stacks)):
-        # Check if stack is empty, just move on
-        if (all_stacks[a] == []):
-            print("Stack {} is empty".format(a+1))
         # Check non empty stacks if everything is the same
-        else:
+        if (all_stacks[a] != []):
             # Check if we have encountered this color before
             if (all_stacks[a][0] in colors_already_used):
-                print("Color already encountered, colors need to be together")
                 return '0'
+            # New color - add it to the list of encountered colors
             else:
-                print("New color detected, adding to list")
                 colors_already_used.append(all_stacks[a][0])
             # Compare first element of the list to the others
             for b in range(1, len(all_stacks[a])):
                 # 2+ colors - incomplete
                 if all_stacks[a][0] != all_stacks[a][b]:
-                    print("Stack {}: 2+ colors detected, not done yet".format(a+1))
                     return '0'
-        # If we reached this point, the stack must be good
-        print("Stack {} must be good".format(a+1))
-    # If we reaached this point, all the stacks must be good
-    print("All stacks must be good at this point")
-
+    # All stacks must be good if we reache this point
     return '1'
-
-    input("")
 
 # Ensure the attempted move is valid - look at top/last part of stack/list
 #   Remember user # is 1 more than index number, adjusted when passing
@@ -93,12 +80,14 @@ def move_ball(origin_stack, new_stack):
 def play_game(all_stacks):
 
     player_choice = ''
+    moves = 0
     #Play until we reach the end
     while (check_win(all_stacks) == '0'):
         show_stacks(all_stacks)
         print("Options:")
         print(" - Enter the number of the stack you are moving FROM")
-        print(" - Quit (q/Q/quit/Quit)")
+        print(" - Quit to main menu (q/Q/quit/Quit)")
+        print("Moves: {}".format(moves))
         player_choice = input("Input: ")
 
         # Player wants to quit
@@ -109,7 +98,7 @@ def play_game(all_stacks):
             if (quit_choice == 'Y' or quit_choice == 'y'):
                 # Notify user and return / terminate function
                 print("Quitting game...thanks for playing I hope you had fun!")
-                return
+                return '0'
         # Player selects origin stack - convert choice str -> int
         #   Ensure its a number and it corresponds to an existing stack
         elif (player_choice.isdigit() and int(player_choice) >= 1 and int(player_choice) <= stack_amt):   
@@ -130,15 +119,24 @@ def play_game(all_stacks):
                     # Ensure it's a valid moves
                     if (check_valid_move(all_stacks, int(player_choice)-1, int(target_choice)-1) == '0'):
                         print("Illegal move, try again")
+                    # Move the ball!!!!
                     else:
                         print("Moving ball...")
                         move_ball(all_stacks[int(player_choice)-1], all_stacks[int(target_choice)-1])
                         valid_target = True
+                        # Increase move counter
+                        moves += 1
                 # Invalid input
                 else:
                     print("Sorry, it must be a number that corresponds to a different stack")
                 # temporary - spacing so it's easier to read
                 print("")
+
+    if (check_win(all_stacks) == '1'):
+        print("Congratulations you have beat the game in {} moves!".format(moves))
+        return moves
+    else:
+        print("Error 1: reached end of gameplay without win?")
 
     
 
