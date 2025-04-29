@@ -2,6 +2,7 @@
 import random
 import Gameplay
 import Navigation
+import Setup
 
 
     
@@ -28,29 +29,31 @@ def main():
 
     #Create stacks
     # for now it is manual
-
-    stack1 = ['Red',    'Red',      'Red',          'Blue']
-    stack2 = ['Yellow', 'Yellow',   'Yellow',       'Blue']
-    stack3 = ['Blue',   'Yellow',   'Red',          'Blue']
-    stack4 = []
-
-    #Test for completed game
-    #stack1 = ['Red', 'Red', 'Red', 'Red']
-    #stack2 = []
-    #stack3 = []
-    #stack4 = ['Yellow', 'Yellow', 'Yellow', 'Yellow']
-
-    # Big list that contains all the stacks - might change later to just 2d list
-    all_stacks = [stack1, stack2, stack3, stack4]
+    
 
     # Display main menu
     main_menu_selection = '0'
     while (int(main_menu_selection) != 5):
+        # Reset all stacks
+        all_stacks = []
+        # Show main menu
         main_menu_selection = Navigation.main_menu()
         # Play game
         if (int(main_menu_selection) == 1):
+            # User picks which setup
+            choose_game_mode = Navigation.game_selection()
+            print("chocie: {}".format(choose_game_mode))
+            # Easy preset 1
+            if (choose_game_mode == 1):
+                print("OK")
+                all_stacks = Setup.easy_preset_1()
+            elif (choose_game_mode == 2):
+                all_stacks = Setup.random_setup(color_list, 4, 4, 4)
+
+            #display = Setup.display_setup_details(color_list, 4, 4)
+
             play = Gameplay.play_game(all_stacks)
-        # Show records - implement later
+    # Show records - implement later
         elif (int(main_menu_selection) == 2):
             print("Displaying best records")
         # Rules

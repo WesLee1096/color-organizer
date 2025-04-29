@@ -22,6 +22,16 @@ def show_rules():
     print(" - Rule 3: if possible, you want to finish the game with the least amount of moves")
     print(" Note: Currently there is only 1 preset but later we hope to add randomized setups")
 
+def game_selection():
+    selection = 0
+    available_options = 2
+    while (int(selection) <= 0 or int(selection) > available_options):
+        print("Available:")
+        print("   1. Easy preset 1")
+        print("   2. Random (Easy)")
+        selection = input("What game mode would you like to play: ")
+    return int(selection)
+
 
 def main_menu():
     menu_selection = 0
